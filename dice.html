@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>骰子计数游戏</title>
+	<script type="text/javascript" src="jquery.js"></script>
+	<style type="text/css">
+		span {
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			line-height: 49px;
+			margin: 20px 20px;
+			color: #FFFFFF;
+			text-align: center;
+		}
+		span:nth-child(1) {background-color: red}
+		span:nth-child(2) {background-color: orange}
+		span:nth-child(3) {background-color: yellow}
+		span:nth-child(4) {background-color: green}
+		span:nth-child(5) {background-color: blue}
+		span:nth-child(6) {background-color: purple}
+		#result {
+			margin-top: 20px;
+			width:300px;
+			height: auto;
+			border: 1px solid #D8E2E9;
+			border-radius: 5px;
+		}
+		.strength {
+			color: tomato;
+		}
+		#sum {
+			float: right;
+			text-align: center;
+		    margin: 0 30% 0 0;
+		    width: 240px;
+		    height: 200px;
+		    line-height: 200px;
+		    font-size: 178px;
+		    background-color: tomato;
+		    color: #DDDDDD;
+		}
+		p {
+			text-indent: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<span id="dice-1">?</span>
+		<span id="dice-2">?</span>
+		<span id="dice-3">?</span>
+		<span id="dice-4">?</span>
+		<span id="dice-5">?</span>
+		<span id="dice-6">?</span>
+	</div>
+	<div type="text" name="" id="sum"></div>
+	<br>
+	<button id="throw" value="123">四啊四啊我要四啊</button>
+	<button id="getResult">1000组数据有3个四点的情况有多少个呢？点我出结果</button>
+	<button id="help">help me？</button>
+	<div id="result"></div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+/* 点击显示在page上 */
+		$("#throw").click(function(){
+			(function(){
+				for(var i = 1; i <= 6; i++){
+					var val = getRandom();
+					$("#dice-"+i).text(val);
+				}
+			})();
+		})
+/* 产生随机数函数 */		
+		function getRandom () {
+			var num = Math.random();
+			num = Math.ceil(num * 6);
+			return num;
+		}
+/* 1000组数据得到 3个四点 的结果有多少组 */
+		$("#getResult").click(function(){
+			var sum = 0;
+			(function(){
+				for(var j = 0; j < 1000; j ++){
+					var index = 0;
+					$("#result").append("<h3>第"+j+"组摇数：</h3>");
+					for(var i = 1; i <= 6; i++){
+						var val = getRandom();
+						// console.log("摇出的数是："+val);
+						$("#result").append("<p>摇出的数是: "+val+"</p>")
+						if(val == 4) {
+							index ++;
+						}
+					}
+					// console.log("第"+j+"组摇骰子有"+index+"个四");
+					$("#result").append("<p class='strength'>统计：这组产生了: "+index+"个四点</p>")
+					if( index == 3 ){
+						sum ++;
+					}
+				}
+				// console.log("产生3个四点数的次数为："+sum);
+				$("#sum").text(sum);
+			})();
+		})
+/* 点击显示概率提示 */
+		$("#help").click(function(){
+			alert("概率：投6个骰子，出现3个四点的概率为:\nC6取3 * 1/6 * 1/6 * 1/6 * 5/6 * 5/6 * 5/6 ≈ 0.054\n 所以一千组数据大概会得到54次左右的结果。");
+		})
+	});
+
+</script>
+</html>
